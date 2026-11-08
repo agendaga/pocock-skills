@@ -8,7 +8,7 @@ Skills are organized into bucket folders under `skills/`:
 
 Every skill in `engineering/` or `productivity/` (the **promoted** buckets) must have a reference in the top-level `README.md` and an entry in `.claude-plugin/plugin.json`'s `skills` array (the Claude Code plugin ships exactly the promoted set). Skills in `misc/`, `in-progress/`, and `deprecated/` must not appear in either.
 
-Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md). `.claude-plugin/marketplace.json` is the repo's own marketplace. Every agent except Claude Code installs from it to get automatic updates, and Claude Code uses `claude-plugins-official`. Run `claude plugin validate . --strict` after touching either manifest. [ADR 0002](./.agents/adr/0002-ship-as-a-claude-code-plugin.md) records why.
+Install commands are copied verbatim from [.agents/install-block.md](./.agents/install-block.md): one install story, a clone of this repo plus `scripts/link-skills.sh`, which symlinks every skill outside `misc/` and `deprecated/` into the harness skill directories; machines without the clone copy the promoted buckets instead. This fork is never published, so it does not run Claude Code's plugin validator; `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` are bookkeeping, kept in line with the promoted set when touched. [ADR 0002](./.agents/adr/0002-ship-as-a-claude-code-plugin.md) records why the repo ships as a plugin at all.
 
 Each skill entry in the top-level `README.md` must link the skill name to its `SKILL.md`.
 

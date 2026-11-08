@@ -10,8 +10,6 @@
 
 # Skills For Real Engineers
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
-
 My agent skills that I use every day to do real engineering - not vibe coding.
 
 Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
@@ -24,77 +22,33 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 ## Installation (30-second setup)
 
-A plugin updates itself. [skills.sh](https://skills.sh/mattpocock/skills) copies editable files into your project, and you update them by hand. Pick one per agent, because installing both gives you every skill twice.
+This repo is its own install source: clone it somewhere stable, run one script, and the same live skills serve every agent on the machine. Nothing is published to npm, and no plugin marketplace is involved.
 
 ### 1. Get the skills
 
-<details>
-<summary><strong>Claude Code</strong></summary>
-
 ```bash
-claude plugin install mattpocock-skills@claude-plugins-official
+git clone https://github.com/agendaga/pocock-skills
+cd pocock-skills
+bash scripts/link-skills.sh
 ```
 
-Updates itself by default.
+The script symlinks every skill outside `misc/` and `deprecated/` into `~/.claude/skills` (Claude Code) and `~/.agents/skills` (Codex and other cross-agent readers). `in-progress/` is included on purpose. The links point inside the clone, so leave the clone where it was cloned; move it and every skill dangles.
+
+To update: `git pull --ff-only`. That is the whole story. Re-run the script only after adding, removing, or renaming a skill.
+
+<details>
+<summary><strong>No durable clone? Copy the promoted skills instead</strong></summary>
+
+```bash
+mkdir -p ~/.claude/skills
+for s in skills/engineering/*/ skills/productivity/*/; do cp -R "$s" ~/.claude/skills/; done   # or ~/.agents/skills/
+```
+
+A copy carries no connection to the clone: re-run the same command after every `git pull`, and delete by hand any skill the repo drops. One skill only: `cp -R skills/engineering/<name> ~/.claude/skills/`.
 
 </details>
 
-<details>
-<summary><strong>Codex</strong></summary>
-
-```bash
-codex plugin marketplace add mattpocock/skills
-codex plugin add mattpocock-skills@mattpocock
-```
-
-Updates itself at startup.
-
-</details>
-
-<details>
-<summary><strong>GitHub Copilot</strong> (CLI and VS Code)</summary>
-
-```bash
-copilot plugin marketplace add mattpocock/skills
-copilot plugin install mattpocock-skills@mattpocock
-```
-
-Then, once, add to `~/.copilot/settings.json`:
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "mattpocock": { "source": { "source": "github", "repo": "mattpocock/skills" }, "autoUpdate": true }
-  }
-}
-```
-
-In VS Code, run **Chat: Install Plugin From Source** and enter `https://github.com/mattpocock/skills`. It updates daily.
-
-</details>
-
-<details>
-<summary><strong>Gemini CLI</strong> (manual updates)</summary>
-
-```bash
-gemini skills install https://github.com/mattpocock/skills.git --path skills/engineering
-gemini skills install https://github.com/mattpocock/skills.git --path skills/productivity
-```
-
-Re-run both commands to update.
-
-</details>
-
-<details>
-<summary><strong>Any other agent, or editable files</strong> (manual updates)</summary>
-
-```bash
-npx skills@latest add mattpocock/skills -a <agent>  # cursor, opencode, devin, windsurf, amp, pi; omit -a to choose
-```
-
-When the installer asks which skills to take, include `setup-matt-pocock-skills`. To update, run `npx skills@latest update`, and re-run `add` to pick up new skills.
-
-</details>
+Never also install these same skills from npm (`npx skills`) or a plugin marketplace: every skill would arrive twice.
 
 ### 2. Run `/setup-matt-pocock-skills`
 

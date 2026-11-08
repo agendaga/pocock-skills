@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# NOTE: This is a dev-only script, intended for use by maintainers of this repo.
-# It is not a supported installer. Modifications to it, or requests for
-# modifications, will not be approved.
-#
-# Links all skills in the repository into the local skill directories used by
-# each agent harness:
+# This is the repo's supported install route (see .agents/install-block.md):
+# the repo's only user is its owner, and every machine that runs the skills
+# keeps a clone of the repo. It links every skill in the repository, outside
+# `deprecated/` and `misc/`, into the skill directories used by each agent
+# harness:
 #   - ~/.claude/skills: Claude Code
 #   - ~/.agents/skills: Codex and other Agent Skills-compatible harnesses
-# Each entry is a symlink into this repo, so a `git pull` is all that's needed
-# to keep installed skills up to date.
+# Each entry is a symlink into the clone, so a `git pull` is the whole update
+# story; re-run the script only after adding, removing, or renaming a skill.
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 DESTS=("$HOME/.claude/skills" "$HOME/.agents/skills")
