@@ -1,0 +1,5 @@
+interface:
+  display_name: "Goldfish Review"
+  short_description: "Swarm a spec with fresh-eyed reviewers"
+policy:
+  allow_implicit_invocation: false
